@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>doraemon's face</title>
+</head>
+<body>
+<canvas id="doraemon" width="800" height="600">
+    Canvas is not supported.
+</canvas>
+<script>
+    /**
+     * 二次贝塞尔曲线绘制椭圆
+     * @param ctx
+     * @param x 椭圆中心横坐标
+     * @param y 椭圆中心纵坐标
+     * @param a 横半轴长
+     * @param b 纵半轴长
+     */
+    function bezierEllipse(ctx, x, y, a, b) {
+        var k = .5522848, ox = a * k, oy = b * k;
+        ctx.beginPath();
+        ctx.moveTo(x - a, y);
+        ctx.bezierCurveTo(x - a, y - oy, x - ox, y - b, x, y - b);
+        ctx.bezierCurveTo(x + ox, y - b, x + a, y - oy, x + a, y);
+        ctx.bezierCurveTo(x + a, y + oy, x + ox, y + b, x, y + b);
+        ctx.bezierCurveTo(x - ox, y + b, x - a, y + oy, x - a, y);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fill();
+    }
+
+
+    function circleDraw(ctx, x, y, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.arc(x, y, r, 0, Math.PI * 2, true);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fill();
+    }
+
+    function lineDraw(ctx, x1, y1, x2, y2) {
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fill();
+    }
+
+    function monthDraw(ctx) {
+        ctx.lineWidth = 5;
+        ctx.beginPath();//开始画嘴巴,嘴巴是两条直线+三条贝塞尔曲线
+        ctx.moveTo(400, 330);
+        ctx.lineTo(480, 330);
+        ctx.bezierCurveTo(510, 330, 525, 330, 520, 350);
+        ctx.bezierCurveTo(480, 450, 340, 480, 290, 355);
+        ctx.bezierCurveTo(280, 330, 300, 330, 330, 330);
+        ctx.lineTo(400, 330);
+        ctx.stroke();
+        ctx.fillStyle = '#CE1613';
+        ctx.fill();
+        ctx.fillStyle = ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 3;
+        ctx.beginPath();//开始画舌头
+        ctx.moveTo(309, 390);
+        ctx.bezierCurveTo(330, 330, 460, 340, 487, 400);
+        ctx.stroke();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var canvas = document.getElementById('doraemon');
+        if (canvas.getContext) {
+            var ctx = canvas.getContext('2d');
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = '#000000';
+            ctx.fillStyle = '#1E96D5';
+            bezierEllipse(ctx, 400, 300, 200, 180);
+            ctx.fillStyle = '#FFFFFF';
+            bezierEllipse(ctx, 400, 335, 160, 130);
+            bezierEllipse(ctx, 353, 210, 45, 55);
+            bezierEllipse(ctx, 447, 210, 45, 55);
+            ctx.lineWidth = 1;
+            ctx.fillStyle = '#000000';
+            circleDraw(ctx, 380, 230, 10);
+            circleDraw(ctx, 420, 230, 10);
+            ctx.fillStyle = ctx.strokeStyle = '#CE1613';
+            circleDraw(ctx, 400, 267, 20);
+            ctx.fillStyle = ctx.strokeStyle = '#FFFFFF';
+            circleDraw(ctx, 392, 260, 8);
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#000000';
+            lineDraw(ctx, 400, 288, 400, 330);
+            monthDraw(ctx);
+            lineDraw(ctx, 280, 267, 350, 280);
+            lineDraw(ctx, 275, 292, 350, 292);
+            lineDraw(ctx, 278, 318, 350, 305);
+            lineDraw(ctx, 400 * 2 - 280, 267, 450, 280);
+            lineDraw(ctx, 400 * 2 - 275, 292, 450, 292);
+            lineDraw(ctx, 400 * 2 - 278, 318, 450, 305);
+        }
+    });
+</script>
+</body>
+</html>
